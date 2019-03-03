@@ -19,6 +19,7 @@ package br.ufpr.inf.cbio.jnaexample;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import java.io.File;
+import java.util.Arrays;
 
 /**
  *
@@ -29,6 +30,9 @@ public class Main {
     public interface ExampleJNA extends Library {
 
         public int sum(int num1, int num2);
+
+        public void sumarray(int a[], int b[], int result[], int size);
+
     }
 
     public static void main(String[] args) {
@@ -40,7 +44,21 @@ public class Main {
         ExampleJNA example = (ExampleJNA) Native.load("example", ExampleJNA.class);
 
         // call sum method from example library
-        int result = example.sum(2, 3);
-        System.out.println("Result: " + result);
+        int a = 2, b = 3;
+        int result = example.sum(a, b);
+        System.out.println(a + " + " + b + " = " + result);
+
+        // example using arrays
+        int size = 5;
+        // input 2 integer arrays
+        int A[] = new int[]{1, 2, 3, 4, 5};
+        int B[] = new int[]{5, 4, 3, 2, 1};
+        // output the sum of the arrays
+        int R[] = new int[size];
+        example.sumarray(A, B, R, size);
+        System.out.println("A = " + Arrays.toString(A));
+        System.out.println("B = " + Arrays.toString(B));
+        System.out.println("A + B = " + Arrays.toString(R));
+
     }
 }
